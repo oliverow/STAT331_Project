@@ -9,3 +9,11 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+# read in data
+births = read.csv("chds_births.csv")
+head(births)
+summary(births)
+m = lm(wt ~ ., data = births)
+summary(m)
+```
