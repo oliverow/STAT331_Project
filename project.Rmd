@@ -1,0 +1,11 @@
+---
+title: "STAT331 Project"
+author: "Sijie Jin, Raymond Tan, Yinong Wang"
+date: '2018-11-14'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
