@@ -36,56 +36,6 @@ births.raw$marital[!births.raw$marital %in% c(1:5)] = NA
 
 
 ```{r}
-# Categorize meth
-meth.categories = c(rep('Caucasian', 6), 'Mexican', 'African-American', 'Asian', 'Mixed', 'Other')
-for (i in 1:length(meth.categories)) {
-  births.raw$meth[births.raw$meth == i-1] = meth.categories[i]
-  births.raw$feth[births.raw$feth == i-1] = meth.categories[i]
-}
-
-# Categorize med
-med.categories = c('elementary school', 'middle school', 'high school', 'high school + trade school', 'high school + some college', 'college graduate', 'trade school', 'high school unclear')
-for (i in 1:length(med.categories)) {
-  births.raw$med[births.raw$med == i-1] = med.categories[i]
-  births.raw$fed[births.raw$fed == i-1] = med.categories[i]
-}
-
-# Categorize marital
-marital.categories = c('married', 'legally separated', 'divorced', 'widowed', 'never married')
-for (i in 1:length(marital.categories)) {
-  births.raw$marital[births.raw$marital == i] = marital.categories[i]
-}
-
-# Categorize income
-income.categories = c('under 2500', '2500-4999', '5000-7499', '7500-9999', '10000-12499', '12500-14999', '15000-17499', '17500-19999', '20000-22499', 'over 22500')
-for (i in 1:length(income.categories)) {
-  births.raw$income[births.raw$income == i-1] = income.categories[i]
-}
-
-# Categorize smoke
-smoke.categories = c('never', 'smokes now', 'until pregnancy', 'used to, not anymore')
-for (i in 1:length(smoke.categories)) {
-  births.raw$smoke[births.raw$smoke == i-1] = smoke.categories[i]
-}
-
-# Categorize time
-time.categories = c('never smoked', 'still smokes', 'during pregnancy', 'less than a year', '1-2 years', '2-3 years', '3-4 years', '5-9 years', 'more than 10 years', 'quit but don’t know when')
-for (i in 1:length(time.categories)) {
-  births.raw$time[births.raw$time == i-1] = time.categories[i]
-}
-
-# Categorize number
-number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19', '20-29', '30=39', '40-60', 'more than 60', 'smoked but don’t know how much')
-for (i in 1:length(number.categories)) {
-  births.raw$number[births.raw$number == i-1] = number.categories[i]
-}
-
-births.raw
-```
-
-### NA's and $\pm$Inf's
-
-```{r}
 proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
 proportion
 
@@ -93,8 +43,60 @@ births.reduced <- births.raw[, !names(births.raw) %in% c('fht', 'fwt')]
 
 births.mice <- mice(births.reduced, method = "cart")
 births.clean <- complete(births.mice)
+summary(births.clean)
 anyNA(births.clean)
 ```
+
+
+```{r}
+# Categorize meth
+meth.categories = c(rep('Caucasian', 6), 'Mexican', 'African-American', 'Asian', 'Mixed', 'Other')
+for (i in 1:length(meth.categories)) {
+  births.clean$meth[births.clean$meth == i-1] = meth.categories[i]
+  births.clean$feth[births.clean$feth == i-1] = meth.categories[i]
+}
+
+# Categorize med
+med.categories = c('elementary school', 'middle school', 'high school', 'high school + trade school', 'high school + some college', 'college graduate', 'trade school', 'high school unclear')
+for (i in 1:length(med.categories)) {
+  births.clean$med[births.clean$med == i-1] = med.categories[i]
+  births.clean$fed[births.clean$fed == i-1] = med.categories[i]
+}
+
+# Categorize marital
+marital.categories = c('married', 'legally separated', 'divorced', 'widowed', 'never married')
+for (i in 1:length(marital.categories)) {
+  births.clean$marital[births.clean$marital == i] = marital.categories[i]
+}
+
+# Categorize income
+income.categories = c('under 2500', '2500-4999', '5000-7499', '7500-9999', '10000-12499', '12500-14999', '15000-17499', '17500-19999', '20000-22499', 'over 22500')
+for (i in 1:length(income.categories)) {
+  births.clean$income[births.clean$income == i-1] = income.categories[i]
+}
+
+# Categorize smoke
+smoke.categories = c('never', 'smokes now', 'until pregnancy', 'used to, not anymore')
+for (i in 1:length(smoke.categories)) {
+  births.clean$smoke[births.clean$smoke == i-1] = smoke.categories[i]
+}
+
+# Categorize time
+time.categories = c('never smoked', 'still smokes', 'during pregnancy', 'less than a year', '1-2 years', '2-3 years', '3-4 years', '5-9 years', 'more than 10 years', 'quit but don’t know when')
+for (i in 1:length(time.categories)) {
+  births.clean$time[births.clean$time == i-1] = time.categories[i]
+}
+
+# Categorize number
+number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19', '20-29', '30=39', '40-60', 'more than 60', 'smoked but don’t know how much')
+for (i in 1:length(number.categories)) {
+  births.clean$number[births.clean$number == i-1] = number.categories[i]
+}
+
+births.clean
+```
+
+### NA's and $\pm$Inf's
 
 ## Automated Model Selection
 
