@@ -91,9 +91,9 @@ proportion
 
 births.reduced <- births.raw[, !names(births.raw) %in% c('fht', 'fwt')]
 
-births.mice <- mice(births.reduced)
+births.mice <- mice(births.reduced, method = "cart")
 births.clean <- complete(births.mice)
-births.clean
+anyNA(births.clean)
 ```
 
 ## Automated Model Selection
