@@ -1,4 +1,4 @@
----
+†---
 title: "STAT331 Project"
 author: "Sijie Jin, Raymond Tan, Yinong Wang"
 date: '2018-11-14'
@@ -40,6 +40,27 @@ births = read.csv("chds_births.csv")
 ```{r}
 head(births)
 summary(births)
+
+proportion <- sapply(births, function(x) { sum(is.na(x))*100/nrow(births) })
+proportion
+
+
+exclude <- c("fht","fwt")
+include <- setdiff(names(births),exclude)
+
+births <- births[include]
+
+
+imp.births <- mice(births,method = 'cart' , printFlag=FALSE)
+
+imp.births.complete <- complete(imp.births)
+
+
+
+
+
+
+
 ```
 
 ### NA's and $\pm$Inf's
