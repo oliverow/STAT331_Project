@@ -10,11 +10,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+install.packages("mice")
+library(mice)
+```
+
+
+
+```{r}
 # read in data
 births = read.csv("chds_births.csv")
 births
 head(births)
 summary(births)
+
 m = lm(wt ~ ., data = births)
 summary(m)
 
