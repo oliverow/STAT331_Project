@@ -19,48 +19,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # read in data
-births = read.csv("chds_births.csv")
+births.raw = read.csv("chds_births.csv")
 ```
-
-```{r}
-#births
-#births[complete.cases(births), ]
-```
-
-```{r}
-#births1 = births[, !names(births) %in% c('fht', 'fwt', 'income')]
-#births1
-#births1[complete.cases(births1), ]
-```
-
-
 
 ### Summary of Data
 
 ```{r}
-head(births)
-summary(births)
+head(births.raw)
+summary(births.raw)
 
-proportion <- sapply(births, function(x) { sum(is.na(x))*100/nrow(births) })
+proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
 proportion
 
+births.reduced <- births.raw[, !names(births.raw) %in% c('fht', 'fwt')]
 
-exclude <- c("fht","fwt")
-include <- setdiff(names(births),exclude)
-
-births <- births[include]
-
-
-imp.births <- mice(births,method = 'cart' , printFlag=FALSE)
-
-imp.births.complete <- complete(imp.births)
-
-
-
-
-
-
-
+births.mice <- mice(births.reduced)
+births.clean <- complete(births.mice)
 ```
 
 ### NA's and $\pm$Inf's
