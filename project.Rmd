@@ -2,30 +2,33 @@
 title: "STAT331 Project"
 author: "Sijie Jin, Raymond Tan, Yinong Wang"
 date: '2018-11-14'
-output: pdf_document
+output: 
+  pdf_document:
+    number_sections: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-install.packages("mice")
-library(mice)
-```
+# Summary
 
+# Model Selection
 
+## Pre-fitting data diagnostic
 
 ```{r}
 # read in data
 births = read.csv("chds_births.csv")
-births
+```
+
+### Summary of Data
+
+```{r}
 head(births)
 summary(births)
-
-m = lm(wt ~ ., data = births)
-summary(m)
-
-pairs(births)
-
 ```
+
+
+### NA's and $\pm$Inf's
+
