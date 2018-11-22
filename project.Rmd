@@ -100,18 +100,36 @@ births.clean <- complete(births.mice)
 ### Forward Model Selection
 
 ```{r}
+M0 <- lm(wt ~ 1, data = births.clean) # initial model
+Mfull <- lm(wt ~ (.)^2, data = births.clean) # full model
+Mstart <- lm(wt ~ gestation + meth + mage + mwt + smoke + number, data = births.clean) # start model
+
+# forward
+Mfwd <- step(object = M0,
+             scope = list(lower = M0, upper = Mfull),
+             direction = "forward",
+             trace = FALSE)
 
 ```
 
 ### Backward Model Selection
 
 ```{r}
-
+# backward
+Mback <- step(object = Mfull, 
+              scope = list(lower = M0, upper = Mfull),
+              direction = "backward", 
+              trace = TRUE)
 ```
 
 ### Stepwise Model Selection
 
 ```{r}
+# stepward
+Mstep <- step(object = Mfull, 
+              scope = list(lower = M0, upper = Mfull),
+              direction = "both", 
+              trace = TRUE)
 
 ```
 
@@ -153,62 +171,59 @@ AIC2 <- AIC(M2)
 
 # Model Diagnostics
 
+## Linear Model Assumptions
 ```{r}
+M1 <- Mfwd
+M2 <- Mstep
 #anova(M1, M2)
-
-M0 <- lm(wt ~ 1, data = births.clean)
-Mfull <- lm(wt ~ (.)^2, data = births.clean)
-Mstart <- lm(wt ~ gestation + meth + mage + mwt + smoke + number, data = births.clean)
-
-# forward
-M1 <- step(object = M0,
-             scope = list(lower = M0, upper = Mfull),
-             direction = "forward",
-             trace = FALSE)
-
-
-# stepward
-M2 <- step(object = Mfull, 
-              scope = list(lower = M0, upper = Mfull),
-              direction = "both", 
-              trace = TRUE)
 
 cex <- .8
 
 # studendized residual for M1:
-
-
-
-# standardized residual for M1:
-
-res1 <- residuals(M1) 
 X1 <- model.matrix(M1) # design matrix
 H1 <- X1 %*% solve(crossprod(X1), t(X1)) # Hat matrix
 h1 <- diag(H1)
 range(h1 - hatvalues(M1))
 sigma.hat1 <- sigma(M1)
+res1 <- residuals(M1)
+res.stu1 <- res1/sqrt(1-h1) # studentized residuals, but on the data scale
+y1.hat <- predict(M1)
 par(mar = c(4,4,.1,.1))
-hist(res1/sigma.hat1, breaks = 50, freq = FALSE, cex.axis = cex,
-xlab = "Standardized Residual for M1", main = "")
-curve(dnorm(x), col = "red", add = TRUE)
+plot(y.hat, res1, pch = 21, bg = "black", cex = cex, cex.axis = cex,
+xlab = "Predicted Birth Weight in M1", ylab = "Residual Birth Weight in M1")
+points(y1.hat, res.stu1, pch = 21, bg = "red", cex = cex)
+legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
+pch = 21, pt.bg = c("black", "red"), pt.cex = cex, cex = cex)
 
-# standardized residual for M2
-
+# studendized residual for M2:
 res2 <- residuals(M2) 
 X2 <- model.matrix(M2) # design matrix
 H2 <- X2 %*% solve(crossprod(X2), t(X2)) # Hat matrix
 h2 <- diag(H2)
 range(h2 - hatvalues(M2))
 sigma.hat2 <- sigma(M2)
+res2 <- residuals(M2)
+res.stu2 <- res2/sqrt(1-h2) # studentized residuals, but on the data scale
+y2.hat <- predict(M2)
+par(mar = c(4,4,.1,.1))
+plot(y2.hat, res2, pch = 21, bg = "black", cex = cex, cex.axis = cex,
+xlab = "Predicted Birth Weight in M2", ylab = "Residual Birth Weight in M2")
+points(y1.hat2, res.stu2, pch = 21, bg = "red", cex = cex)
+legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
+pch = 21, pt.bg = c("black", "red"), pt.cex = cex, cex = cex)
+
+# standardized residual for M1:
+par(mar = c(4,4,.1,.1))
+hist(res1/sigma.hat1, breaks = 50, freq = FALSE, cex.axis = cex,
+xlab = "Standardized Residual for M1", main = "")
+curve(dnorm(x), col = "red", add = TRUE)
+
+# standardized residual for M2
 par(mar = c(4,4,.1,.1))
 hist(res2/sigma.hat2, breaks = 50, freq = FALSE, cex.axis = cex,
 xlab = "Standardized Residual for M2", main = "")
 curve(dnorm(x), col = "red", add = TRUE)
-
-
 ```
-
-## Linear Model Assumptions
 
 ## Colinearity
 
