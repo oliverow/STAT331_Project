@@ -29,6 +29,53 @@ head(births)
 summary(births)
 ```
 
-
 ### NA's and $\pm$Inf's
+
+```{r}
+
+```
+
+## Automated Model Selection
+
+### Forward Model Selection
+
+```{r}
+
+```
+
+### Backward Model Selection
+
+```{r}
+
+```
+
+### Stepwise Model Selection
+
+```{r}
+
+```
+
+## Manual Model Selection
+
+### Cross Validation
+
+```{r}
+
+```
+
+### PRESS Statistics
+
+### Akaike Information Criterion
+
+## Conclusion
+
+# Model Diagnostics
+
+## Linear Model Assumptions
+
+## Colinearity
+
+## Outliers
+
+# Conclusions
 
