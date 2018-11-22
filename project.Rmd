@@ -73,7 +73,29 @@ births.clean <- complete(births.mice)
 
 ### PRESS Statistics
 
+```{r}
+#Press Statistic
+calPress <- function(M){
+  press <- resid(M)/(1-hatvalues(M))
+  return(press)
+}
+
+press1 <- calPress(M1);
+press2 <- calPress(M2);
+```
+
+
+
 ### Akaike Information Criterion
+```{r}
+# AIC Statistic for M1
+AIC1 <- AIC(M1)
+
+#AIC Statistic for M2
+AIC2 <- AIC(M2)
+```
+
+
 
 ## Conclusion
 
