@@ -18,6 +18,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Pre-fitting data diagnostic
 
 ```{r}
+library(mice)
+
 # read in data
 births.raw = read.csv("chds_births.csv")
 ```
@@ -84,7 +86,7 @@ for (i in 1:length(time.categories)) {
 births.raw$time = as.factor(births.raw$time)
 
 # Categorize number
-number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19', '20-29', '30=39', '40-60', 'more than 60', 'smoked but don’t know how much')
+number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19', '20-29', '30-39', '40-60', 'more than 60', 'smoked but don’t know how much')
 for (i in 1:length(number.categories)) {
   births.raw$number[births.raw$number == i-1] = number.categories[i]
 }
@@ -109,7 +111,7 @@ proportion
 
 # births.reduced <- births.raw.cont[, !names(births.raw) %in% c('fht', 'fwt')]
 
-births.mice <- mice(births.raw, method = "cart")
+births.mice <- mice(births.raw, method = "cart", seed = 1)
 births.clean <- complete(births.mice)
 summary(births.clean)
 anyNA(births.clean)
@@ -131,8 +133,6 @@ Mfwd <- step(object = M0,
              scope = list(lower = M0, upper = Mfull),
              direction = "forward",
              trace = FALSE)
-
-
 ```
 
 ### Backward Model Selection
@@ -153,7 +153,6 @@ Mstep <- step(object = Mstart,
               scope = list(lower = M0, upper = Mfull),
               direction = "both", 
               trace = FALSE)
-
 ```
 
 ## Manual Model Selection
