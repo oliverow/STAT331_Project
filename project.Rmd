@@ -225,6 +225,7 @@ abline(v = mean(logLambda), col = "red") # average value
 #Press Statistic
 calPress <- function(M){
   press <- resid(M)/(1-hatvalues(M))
+  press <- sum(press^2)
   return(press)
 }
 
