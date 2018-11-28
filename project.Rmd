@@ -467,34 +467,6 @@ system.time({
 ```
 
 ```{r}
-    # code for generating proper testset
-    test.ind = c()
-    trainset = births.clean[0,]
-    while (length(test.ind) < ntest) {
-      id = sample(ntot, 1)
-      notIncluded = FALSE
-      for (name in names(births.clean[id,])) {
-        if (!eval(parse(text = paste('births.clean[id,]$',`name`,sep = ''))) %in% eval(parse(text = paste('trainset$',`name`,sep = '')))) {
-          notIncluded = TRUE
-          break
-        }
-      }
-      if (notIncluded) {
-        trainset[length(trainset$wt)+1,] = births.clean[id,]
-      } else {
-        test.ind[length(test.ind)+1] = id
-      }
-    }
-    train.ind = c(1:ntot)[-test.ind]
-    
-    # alternative
-    exclude = c("meth", "mage", "med", "fage", "fed", "marital", "income")
-    M1.res <- births.clean$wt[-train.ind] -
-              predict(M1.cv, newdata = births.clean[!names(births.clean) %in% exclude][-train.ind,])
-```
-
-
-```{r}
 # plot rMSPE and out-of-sample log(Lambda)
 par(mfrow = c(1,2))
 par(mar = c(4.5, 4.5, .1, .1))
