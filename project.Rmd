@@ -332,10 +332,9 @@ QQPlot(Mstep)
 ## Leverage
 ```{r}
 # function to produce leverage and influence plots
-#LeverageInfluence <- function(M) {
-M <- Mfwd
+LeverageInfluence <- function(M) {
   y.hat <- predict(M) # predicted values
-  sigma.hat <- summary(M)$sigma
+  sigma.hat <- sigma(M)
   res <- resid(M) # original residuals$
   res.sta <- res/sigma.hat # standardized residuals
 
@@ -367,7 +366,7 @@ M <- Mfwd
   cex <- .8
   plot(y.hat, rep(0, length(y.hat)), 
        type = "n", # empty plot to get the axis range
-       ylim = range(res.sta, res.stu, press, dfts), 
+       ylim = range(-15, 15), 
        cex.axis = cex, 
        xlab = "Predicted Values", 
        ylab = "Residuals")
@@ -384,7 +383,7 @@ M <- Mfwd
   
   # against leverages
   plot(h, rep(0, length(y.hat)), type = "n", cex.axis = cex,
-      ylim = range(res.sta, res.stu, press, dfts), 
+      #ylim = range(res.sta, res.stu, press, dfts), 
       xlab = "Leverages", ylab = "Residuals")
   segments(x0 = h,
           y0 = pmin(res.sta, res.stu, press, dfts), 
@@ -410,15 +409,16 @@ M <- Mfwd
   plot(h, D, xlab = "Leverage", ylab = "Cook's Influence Measure",
   pch = 21, bg = clrs, cex = cex, cex.axis = cex)
   p <- length(coef(M))
-  n <- nrow(market2)
+  n <- nrow(births.clean)
   hbar <- p/n # average leverage
   abline(v = 2*hbar, col = "grey60", lty = 2) # 2x average leverage
   return(c(infl.ind, D[infl.ind]))
-#}
+}
 
 
 # leverage influence for forward selection model:
-#LeverageInfluence(Mfwd)
+LeverageInfluence(Mfwd)
+LeverageInfluence(Mback)
 ```
 
 ## Colinearity
