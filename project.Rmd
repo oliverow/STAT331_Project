@@ -467,6 +467,28 @@ vif2
 
 
 ## Outliers
+```{r}
+M <- with(births.clean,expr ={
+   log.wt <- log(births.clean$wt)
+   log.gestation <- log(births.clean$gestation)
+   log.parity <- log(births.clean$parity)
+   log.mage <- log(births.clean$mage)
+   log.mgt <- log(births.clean$mht)
+   log.mwt <- log(births.clean$mwt)
+   log.fage <- log(births.clean$fage)
+   log.fht <- log(births.clean$fht)
+   log.fwt <-log(births.clean$fwt)
+   lm(log.wt ~ log.gestation + log.parity + log.mage + log.mgt + log.mwt + log.fage + log.fht + log.fwt + meth + feth + med + fed + marital + income + smoke + time + number)
+    } )
+
+
+coef(M)# coefficients
+
+
+plot(predict(M),resid(M),
+     xlab = "Predicted Log-Infant Mortality",ylab = "Residual Log-Infant Mortality")
+```
+
 
 # Conclusions
 
