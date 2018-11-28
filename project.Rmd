@@ -32,6 +32,8 @@ summary(births.raw)
 
 # Validating marital
 births.raw$marital[!births.raw$marital %in% c(1:5)] = NA
+births.raw$time[births.raw$time %in% c(9)] = NA
+births.raw$number[births.raw$number %in% c(9)] = NA
 ```
 
 ### Categorize data
