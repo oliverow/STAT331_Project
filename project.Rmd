@@ -430,6 +430,7 @@ plot(predict(M),resid(M),
 
 ### Cross Validation
 ```{r}
+options(warn=-1)      #turn off warnings
 # Cross-validation setup
 nreps <- 2e3 # number of replications
 ntot <- nrow(births.clean) # total number of observations
@@ -464,6 +465,7 @@ system.time({
                      sum(dnorm(M2.res, mean = 0, sd = M2.sigma, log = TRUE))
   }
 })
+options(warn=1)      #turn warnings back on
 ```
 
 ```{r}
