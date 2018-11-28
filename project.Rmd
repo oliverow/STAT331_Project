@@ -323,9 +323,8 @@ StaResPlot <- function(M) {
 QQPlot <- function(M) {
   res <- residuals(M)
   h <- hatvalues(M)
-  res.stu <- res/sqrt(1-h)
-  qqnorm(res.stu, ylim = c(-60, 60))
-  qqline(res.stu)
+  qqnorm(res/sigma(M))
+  abline(a=0, b=1, col = "red") #add 45 degree line
   # head(res.stu1)
 }
 
@@ -392,7 +391,7 @@ LeverageInfluence <- function(M) {
   cex <- .8
   plot(y.hat, rep(0, length(y.hat)), 
        type = "n", # empty plot to get the axis range
-       ylim = range(-15, 15), 
+       ylim = range(res.sta, res.stu, press, dfts), 
        cex.axis = cex, 
        xlab = "Predicted Values", 
        ylab = "Residuals")
@@ -408,9 +407,12 @@ LeverageInfluence <- function(M) {
   points(y.hat, dfts, pch = 21, bg = "orange", cex = cex)
   
   # against leverages
-  plot(h, rep(0, length(y.hat)), type = "n", cex.axis = cex,
-      #ylim = range(res.sta, res.stu, press, dfts), 
-      xlab = "Leverages", ylab = "Residuals")
+  plot(h, rep(0, length(y.hat)), 
+       type = "n", 
+       cex.axis = cex,
+       ylim = range(res.sta, res.stu, press, dfts), 
+       xlab = "Leverages", ylab = "Residuals")
+  
   segments(x0 = h,
           y0 = pmin(res.sta, res.stu, press, dfts), 
           y1 = pmax(res.sta, res.stu, press, dfts), 
