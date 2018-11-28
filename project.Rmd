@@ -179,6 +179,9 @@ M2 <- Mstep
 ```{r}
 #Press Statistic
 calPress <- function(M){
+  # X <- model.matrix(M)
+  # H <- X %*% solve(crossprod(X), t(X))
+  # press <- resid(M)/(1-diag(H))
   press <- resid(M)/(1-hatvalues(M))
   press <- sum(press^2)
   return(press)
