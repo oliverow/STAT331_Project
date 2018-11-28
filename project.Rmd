@@ -386,9 +386,6 @@ LeverageInfluence <- function(M) {
   press <- press*(1 - hbar)/sigma.hat # at h = hbar, press = res.sta
   dfts <- dfts*(1 - hbar)/sqrt(hbar) # at h = hbar, dfts = res.sta
   
-  
-  sum(press^2)
-  
   # plot all residuals
   par(mfrow = c(1,2), mar = c(4,4,.1,.1))
   cex <- .8
