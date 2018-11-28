@@ -122,17 +122,16 @@ anyNA(births.clean)
 
 ```{r}
 M0 <- lm(wt ~ 1, data = births.clean) # initial model
-Mfull <- lm(wt ~ (.)^2, data = births.clean) # full model
+Mfull <- lm(wt ~ (. - number - time - fed - med - feth - meth - marital)^2 + number + time + fed + med + feth + meth + marital+
+              I(gestation^2) + I(parity^2) + I(mage^2) + I(mht^2) + 
+              I(mwt^2) + I(fage^2) + I(fht^2) + I(fwt^2), data = births.clean) # full model
 Mstart <- lm(wt ~ ., data = births.clean) # start model
-
-# beta.max <- coef(Mfull)
-# names(beta.max)[is.na(beta.max)]
 ```
 
 ### Forward Model Selection
 
 ```{r}
-# forward
+# forward selection
 Mfwd <- step(object = M0,
              scope = list(lower = M0, upper = Mfull),
              direction = "forward",
@@ -142,7 +141,7 @@ Mfwd <- step(object = M0,
 ### Backward Model Selection
 
 ```{r}
-# backward
+# backward elimination
 Mback <- step(object = Mfull, 
               scope = list(lower = M0, upper = Mfull),
               direction = "backward", 
@@ -152,7 +151,7 @@ Mback <- step(object = Mfull,
 ### Stepwise Model Selection
 
 ```{r}
-# stepward
+# stepwise selection
 Mstep <- step(object = Mstart, 
               scope = list(lower = M0, upper = Mfull),
               direction = "both", 
@@ -247,74 +246,81 @@ AIC2 <- AIC(M2)
 
 ## Linear Model Assumptions
 ```{r}
-M1 <- Mfwd
-M2 <- Mstep
-
-summary(M1)
-summary(M2)
-#anova(M1, M2)
+summary(Mfwd)
+summary(Mback)
+summary(Mstep)
 ```
 
 ```{r}
-cex <- .8
 
-# studendized residual for M1:
-res1 <- residuals(M1) # Hat matrix
-h1 <- hatvalues(M1)
-sigma.hat1 <- sigma(M1)
-res.stu1 <- res1/sqrt(1-h1) # studentized residuals, but on the data scale
-y.hat1 <- predict(M1)
-par(mar = c(4,4,.1,.1))
-plot(y.hat1, res1, pch = 21, bg = "black", cex = cex, cex.axis = cex,
+# function for drawing studendized residual plots 
+StuResPlot <- function(M) {
+  cex <- .8
+  res <- residuals(M) # Hat matrix
+  h <- hatvalues(M)
+  sigma.hat <- sigma(M)
+  res.stu <- res/sqrt(1-h) # studentized residuals, but on the data scale
+  y.hat <- predict(M)
+  par(mar = c(4,4,.1,.1))
+  plot(y.hat, res, pch = 21, bg = "black", cex = cex, cex.axis = cex,
         xlab = "Predicted Birth Weight in M1",
         ylab = "Residual Birth Weight in M1",
-        abline(h = mean(res1), col = "blue"))
-points(y.hat1, res.stu1, pch = 21, bg = "red", cex = cex)
-legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
-pch = 21, pt.bg = c("black", "red"), pt.cex = cex, cex = cex)
+        abline(h = mean(res), col = "blue"))
+  points(y.hat, res.stu, pch = 21, bg = "red", cex = cex)
+  legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
+        pch = 21, pt.bg = c("black", "red"), pt.cex = cex, cex = cex)
+}
+
+# function for drawing standardized residual plots
+StaResPlot <- function(M) {
+  cex <- .8
+  res <- residuals(M) # Hat matrix
+  h <- hatvalues(M)
+  sigma.hat <- sigma(M)
+  par(mar = c(4,4,.1,.1))
+  hist(res/sigma.hat, breaks = 50, freq = FALSE, cex.axis = cex,
+  xlab = "Standardized Residual for M1", main = "")
+  curve(dnorm(x), col = "red", add = TRUE)
+  abline(v = mean(res/sigma.hat), col = "green")
+}
+
+#function for drawing QQ plots
+QQPlot <- function(M) {
+  res <- residuals(M)
+  h <- hatvalues(M)
+  res.stu <- res/sqrt(1-h)
+  qqnorm(res.stu, ylim = c(-60, 60))
+  qqline(res.stu)
+  # head(res.stu1)
+}
 
 
-# studendized residual for M2:
-res2 <- residuals(M2) 
-X2 <- model.matrix(M2) # design matrix
-h2 <- hatvalues(M2)
-sigma.hat2 <- sigma(M2)
-res2 <- residuals(M2)
-res.stu2 <- res2/sqrt(1-h2) # studentized residuals, but on the data scale
-y.hat2 <- predict(M2)
-par(mar = c(4,4,.1,.1))
-plot(y.hat2, res2, pch = 21, bg = "black", cex = cex, cex.axis = cex,
-    xlab = "Predicted Birth Weight in M2", 
-    ylab = "Residual Birth Weight in M2", 
-    abline(h = mean(res2), col = "blue"))
-points(y.hat2, res.stu2, pch = 21, bg = "red", cex = cex)
-legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
-pch = 21, pt.bg = c("black", "red"), pt.cex = cex, cex = cex)
+# studendized residual for forward selection model:
+StuResPlot(Mfwd)
 
+# studendized residual for backward elimination model:
+StuResPlot(Mback)
 
-# standardized residual for M1:
-par(mar = c(4,4,.1,.1))
-hist(res1/sigma.hat1, breaks = 50, freq = FALSE, cex.axis = cex,
-xlab = "Standardized Residual for M1", main = "")
-curve(dnorm(x), col = "red", add = TRUE)
-abline(v = mean(res1/sigma.hat1), col = "green")
+# studentdized residual for stepwise selection model:
+StuResPlot(Mstep)
 
-# standardized residual for M2
-par(mar = c(4,4,.1,.1))
-hist(res2/sigma.hat2, breaks = 50, freq = FALSE, cex.axis = cex,
-xlab = "Standardized Residual for M2", main = "")
-curve(dnorm(x), col = "red", add = TRUE)
-abline(v = mean(res2/sigma.hat2), col = "green")
+# standardized residual for forward selection model:
+StaResPlot(Mfwd)
 
-# QQ-plot for M1
-qqnorm(res.stu1, ylim = c(-40, 60))
-qqline(res.stu1)
-# head(res.stu1)
+# standardized residual for backward elimination model:
+StaResPlot(Mback)
 
-# QQ-plot for M2
-qqnorm(res.stu2, ylim = c(-40, 60))
-qqline(res.stu2)
-# head(res.stu2)
+# standardized residual for stepwise selection model:
+StaResPlot(Mstep)
+
+# QQ-plot for forward selection model:
+QQPlot(Mfwd)
+
+# QQ-plot for backward selection model:
+QQPlot(Mback)
+
+# QQ-plot for stepwise selection model:
+QQPlot(Mstep)
 ```
 
 ## Colinearity
