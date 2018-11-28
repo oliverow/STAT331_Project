@@ -93,7 +93,7 @@ for (i in 1:length(number.categories)) {
 }
 births.raw$number = as.factor(births.raw$number)
 
-births.raw
+summary(births.raw)
 ```
 
 ### Pair plots
@@ -190,9 +190,9 @@ system.time({
     # out-of-sample residuals for both models
     # that is, testing data - predictions with training parameters
     M1.res <- births.clean$wt[-train.ind] -
-    predict(M1.cv, newdata = births.clean[-train.ind,])
+              predict(M1.cv, newdata = births.clean[-train.ind,])
     M2.res <- births.clean$wt[-train.ind] -
-    predict(M2.cv, newdata = births.clean[-train.ind,])
+              predict(M2.cv, newdata = births.clean[-train.ind,])
     # mean-square prediction errors
     mspe1[ii] <- mean(M1.res^2)
     mspe2[ii] <- mean(M2.res^2)
@@ -206,6 +206,34 @@ system.time({
   }
 })
 ```
+
+```{r}
+    # code for generating proper testset
+    test.ind = c()
+    trainset = births.clean[0,]
+    while (length(test.ind) < ntest) {
+      id = sample(ntot, 1)
+      notIncluded = FALSE
+      for (name in names(births.clean[id,])) {
+        if (!eval(parse(text = paste('births.clean[id,]$',`name`,sep = ''))) %in% eval(parse(text = paste('trainset$',`name`,sep = '')))) {
+          notIncluded = TRUE
+          break
+        }
+      }
+      if (notIncluded) {
+        trainset[length(trainset$wt)+1,] = births.clean[id,]
+      } else {
+        test.ind[length(test.ind)+1] = id
+      }
+    }
+    train.ind = c(1:ntot)[-test.ind]
+    
+    # alternative
+    exclude = c("meth", "mage", "med", "fage", "fed", "marital", "income")
+    M1.res <- births.clean$wt[-train.ind] -
+              predict(M1.cv, newdata = births.clean[!names(births.clean) %in% exclude][-train.ind,])
+```
+
 
 ```{r}
 # plot rMSPE and out-of-sample log(Lambda)
@@ -422,6 +450,21 @@ LeverageInfluence(Mback)
 ```
 
 ## Colinearity
+
+### Variance Inflation Factor
+```{r}
+M1 = Mfwd
+M2 = Mstep
+X <- model.matrix(M1)
+C <- cor(X) # correlation matrix
+vif1 <- diag(solve(C))
+vif1
+X <- model.matrix(M2)
+C <- cor(X) # correlation matrix
+vif2 <- diag(solve(C))
+vif2
+```
+
 
 ## Outliers
 
