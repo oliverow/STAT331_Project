@@ -437,13 +437,15 @@ LeverageInfluence <- function(M) {
   n <- nrow(births.clean)
   hbar <- p/n # average leverage
   abline(v = 2*hbar, col = "grey60", lty = 2) # 2x average leverage
+  legend("topleft", legend = c("High Leverage", "High Influence"), pch = 21,
+         pt.bg = c("blue", "red"), cex = cex, pt.cex = cex)
   return(c(infl.ind, D[infl.ind]))
 }
 
 
 # leverage influence for forward selection model:
 a <-LeverageInfluence(Mback)
- b <-LeverageInfluence(Mstep)
+b <-LeverageInfluence(Mstep)
 
 ```
 
