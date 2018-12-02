@@ -526,6 +526,9 @@ abline(v = mean(logLambda), col = "red") # average value
 # info
 # 
 
+
+
+
 ```
 
 
