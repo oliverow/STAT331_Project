@@ -30,6 +30,15 @@ births.raw = read.csv("chds_births.csv")
 
 ### Summary of Data
 
+After loading the dataset, we observed the following:
+1. There are 1236 entries in the dataset
+2. There are 18 factors in the dataset
+3. Some factors have a large proportion of NA's:
+  + fht: 39.81%
+  + fwt: 40.37%
+  + income: 10.03%
+4. Factor marital contains undefined level 0
+
 ```{r,echo=FALSE}
 # head(births.raw, 10)
 # summary(births.raw)
@@ -41,9 +50,10 @@ births.raw$number[births.raw$number %in% c(9)] = NA
 
 ```
 
-
 ### Categorize data
-By using one hot encoding method,we factorize the levels of each categorical variables into meaningful names to have a good interpretation of the model. 
+By using one hot encoding method, we factorize the levels of each categorical variables into meaningful names to have a good interpretation of the model.
+Note: we also shrink the number of levels for some factors because those levels are significant minorities:
++ meth/feth: Mexican, Asin, Mixed are merged into level Other
 
 ```{r,echo=FALSE}
 categoricals = c('meth', 'feth', 'med', 'fed', 'marital', 'income', 'smoke', 'time', 'number')#, 'parity', 'mht', 'fht')
