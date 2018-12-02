@@ -153,7 +153,7 @@ births.clean <- complete(births.mice)
 
 ```{r,echo=FALSE}
 M0 <- lm(wt ~ 1, data = births.clean) # initial model
-Mfull <- lm(wt ~ (. - number - time - fed - med - feth - meth - marital)^2+ number + time + fed + med + feth                + meth + marital + I(gestation^2) + I(parity^2) + I(mage^2) + I(mht^2)
+Mfull <- lm(wt ~ (. - number - time - fed - med - feth - meth - marital)^2+ number + time + fed + med + feth                + meth + marital + I(gestation^2) + I(mage^2) + I(mht^2)
               + I(mwt^2) + I(fage^2) + I(fht^2) + I(fwt^2), data = births.clean) # full model
 Mstart <- lm(wt ~ ., data = births.clean) # start model
 ```
