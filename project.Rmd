@@ -52,8 +52,16 @@ births.raw$number[births.raw$number %in% c(9)] = NA
 
 ### Categorize data
 By using one hot encoding method, we factorize the levels of each categorical variables into meaningful names to have a good interpretation of the model.
-Note: we also shrink the number of levels for some factors because those levels are significant minorities:
-+ meth/feth: Mexican, Asin, Mixed are merged into level Other
+* Note: we also shrink the number of levels for some factors because those levels are significant minorities:
+  + meth/feth: Mexican, Asin, and Mixed are significant minorities and are merged into level Other
+  + med/fed: elementary school, high school + trade school, trade school, and high school unclear are significant minorities and are merged into level Other
+  + marital: legally separated, divorced, widowed, and never married are significant minorities and are merged into level single
+  + time: less than a year, 1-2 years, 2-3 years, 3-4 years, 5-9 years are significant minorities and are merged into level less than 10 years; never and more than 10 years are significant minorities and are merged into level never or more than 10 years
+  + number: 1-4, 5-9, 10-14, 15-19 are significant minorities and are merged into level less than 20; 20-29, 30-39, 40-60, more than 60 are significant minorities and are merged into level more than 20
+* Note: we converted the following factor levels into NA for mice to impute more useful data
+  + time: level quit but don't know when is converted into NA
+  + number: level smoked but don’t know how much is converted into NA
+* Note: factor smoke is highly correlated to factor time and number, so we droped this factor
 
 ```{r,echo=FALSE}
 categoricals = c('meth', 'feth', 'med', 'fed', 'marital', 'income', 'smoke', 'time', 'number')#, 'parity', 'mht', 'fht')
