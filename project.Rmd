@@ -120,6 +120,17 @@ pairs(births.raw.cont, cex = 0.2)
 prefit.model <- lm(births.raw.cont)
 ```
 
+```{r,echo=TRUE}
+table(births.raw$parity)
+
+# Categorize parity
+births.raw$parity[births.raw$parity > 5] = 5
+parity.categories = c('zero', 'one', 'two', 'three', 'four', 'more than four')
+for (i in 1:length(parity.categories)) {
+  births.raw$parity[births.raw$parity == i-1] = parity.categories[i]
+}
+births.raw$parity = as.factor(births.raw$parity)
+```
 
 
 ### NA's and $\pm$Inf's
