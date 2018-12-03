@@ -510,20 +510,21 @@ a <-LeverageInfluence(Mback)
 b <-LeverageInfluence(Mstep)
 
 ```
-
-
+\newline
+The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
+To measure the overall influence of each observation, Cook’s distance is plotted against leverage as above. We can see that $MStep$ has larger leverage and influence. Hence there might be an outlier in $MStep$.
 
 ## Outliers
-```{r,echo=FALSE}
-M <-lm(births.clean)
-# coef(M)
-plot(predict(M),resid(M))
-entry <- which.max(resid(M))
+```{r,echo=FALSE,eval=FALSE}
+plot(predict(M2), resid(M2))
+entry <- which.max(abs(resid(M2)))
+entry
 ```
-
+\newline
+We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $MStep$. For this observation, 
 
 ## Cross Validation
-```{r,echo=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 # Cross-validation setup
 nreps <- 2e3 # number of replications
 ntot <- nrow(births.clean) # total number of observations
