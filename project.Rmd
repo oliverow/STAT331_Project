@@ -200,18 +200,20 @@ anyNA(births.clean)
 
 ## Pre-fitting Model
 
-```{r,echo=FALSE,waring=FALSE}
+```{r,echo=FALSE}
 # Variance Inflaction Factor
 # design matrix excluding intercept
 X <- model.matrix(lm(wt ~ gestation + mage + mwt + fage
                      + fwt + mht + fht - 1, data = births.clean))
 C <- cor(X) # correlation matrix
 vif <- diag(solve(C))
-vif
-
 
 # pre-fitting model
 MPrefit <- lm(wt ~ gestation + mage + mwt + fwt + fht + mht, data = births.clean)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+vif
 summary(MPrefit)
 ```
 We got a pre-fitting model $MPrefit$ by analyzing pair plots of continuous variable. We noticed that there is a strong linear relation between $mage$ and $fage$. By analyzing variance inflaction factor, fage has more correlated relation with other variables. Hence in the pre-fitting model, we decided to remove the $fage$.
@@ -339,7 +341,7 @@ StuResPlot <- function(M,name) {
        cex.axis = cex,
        xlab = "Predicted Birth Weight",
        ylab = "Residual Birth Weight",
-       main = paste("Studentized Residuals for",name),
+       main = paste("Studentized Residuals",name),
        abline(h = mean(res), col = "blue"))
   points(y.hat, res.stu, pch = 21, bg = "red", cex = cex)
   legend(x = "bottomleft", c("Residuals", "Studentized Residuals"),
@@ -355,7 +357,7 @@ StaResPlot <- function(M,name) {
   # par(mar = c(4,2,.1,2))
   par(4,.1,4,.1)
   hist(res/sigma.hat, breaks = 50, freq = FALSE, cex.axis = cex,
-  xlab = "Standardized Residual", main = paste("Standardize Residuals for",name))
+  xlab = "Standardized Residual", main = paste("Standardize Residuals",name))
   curve(dnorm(x), col = "red", add = TRUE)
   abline(v = mean(res/sigma.hat), col = "green")
 }
@@ -364,7 +366,7 @@ StaResPlot <- function(M,name) {
 QQPlot <- function(M,name) {
   res <- residuals(M)
   h <- hatvalues(M)
-  qqnorm(res/sigma(M),main = paste("QQ Plot for",name))
+  qqnorm(res/sigma(M),main = paste("QQ Plot",name))
   abline(a=0, b=1, col = "red") #add 45 degree line
   # head(res.stu1)
 }
@@ -378,10 +380,10 @@ QQPlot <- function(M,name) {
 
  par(mfrow = c(1,2))
 # studendized residual for backward elimination model:
-StuResPlot(Mback,"Mback")
+StuResPlot(Mback,"(Mback)")
 
 # studentdized residual for stepwise selection model:
-StuResPlot(Mstep,"MStep")
+StuResPlot(Mstep,"(MStep)")
 
 ```
 
@@ -392,10 +394,10 @@ To begin with, we compare Studentized Residuals plot between the two canadiates.
 ```{r,echo=FALSE}
 par(mfrow = c(1,2))
 # standardized residual for backward elimination model:
-StaResPlot(Mback,"MBack")
+StaResPlot(Mback,"(MBack)")
 
 # standardized residual for stepwise selection model:
-StaResPlot(Mstep,"MStep")
+StaResPlot(Mstep,"(MStep)")
 ```
 
 
@@ -405,10 +407,10 @@ Next, we would look at the Standardized Historgram to find the assumption of mor
 
  par(mfrow = c(1,2))
 # QQ-plot for backward selection model:
-QQPlot(Mback,"MBack")
+QQPlot(Mback,"(MBack)")
 
 # QQ-plot for stepwise selection model:
-QQPlot(Mstep,"MStep")
+QQPlot(Mstep,"(MStep)")
 ```
 
 Last but not least, We compare their QQ-Plots. From both QQ-Plots, as theroretical quantiles getting larger, each points tend to stabalize on the 45 degree line on the plots.\newline
@@ -509,7 +511,6 @@ b <-LeverageInfluence(Mstep)
 
 ```
 
-## Colinearity
 
 ## Outliers
 ```{r,echo=FALSE}
@@ -517,11 +518,10 @@ M <-lm(births.clean)
 # coef(M)
 plot(predict(M),resid(M))
 entry <- which.max(resid(M))
-entry
 ```
 
 
-### Cross Validation
+## Cross Validation
 ```{r,echo=FALSE}
 # Cross-validation setup
 nreps <- 2e3 # number of replications
