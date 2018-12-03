@@ -80,7 +80,7 @@ By using one hot encoding method, we factorize the levels of each categorical va
 * Note: we converted the following factor levels into NA for mice to impute more useful data
     + time: level quit but don't know when is converted into NA
     + number: level smoked but don’t know how much is converted into NA
-* Note: the level never smoked of factor smoke is identical to the level never smoked of factor time and number, so we droped this factor
+* Note: the level never smoked of factor smoke is identical to the level never smoked of factor time and number, so we dropped this factor
 
 ```{r,echo=FALSE}
 # list of categorical variables
@@ -170,7 +170,7 @@ pairs(births.raw.cont, cex = 0.1)
 
 ```
 \newline
-Here is the pair plots of continuous variables. Notice that $parity$ is not continuous because there are some vertical lines in the plot. Also $parity$ is the total number of previous pregnancies, so normally it does not contain decimal numbers. What we did was categorizing it into 6 different variables.
+Here is the pair plot of continuous variables. Notice that $parity$ is not continuous because there are some vertical lines in the plot. Also $parity$ is the total number of previous pregnancies, so normally it does not contain decimal numbers. What we did was categorizing it into 6 different variables.
 
 ```{r,echo=FALSE}
 # Categorize parity
@@ -227,7 +227,7 @@ Mstart <- lm(wt ~ ., data = births.clean) # start model
 
 ```
 
-We defined three helper model $M0$, $Mfull$, and $Mstep$. 
+We defined three helper models $M0$, $Mfull$, and $Mstep$. 
 Model $M0$ is a model containing solely the intercept. $$M0: wt \sim 1$$
 $Mfull$ is a model containing most the main effects and interactions. When we first tried backward elimination, we used the full model with all the main effects and interactions. However it took us a long time to find a suitable model because there was a large number of categorical variables in our full model. We deleted some non-interaction terms and added quadratic terms for the continuous covariates. Here is our $MFull$: $$Mfull: wt \sim ( . - number - time - fed - med - feth - meth - marital)^2+$$
               $$number + time + fed + med + feth + meth + $$
@@ -545,6 +545,7 @@ plot(predict(M2), resid(M2), cex = .4)
 entry <- which.max(abs(resid(M2)))
 
 ```
+\newline
 We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $Mstep$. We found that birth weight in this observation is much larger than birth weight in other observations. This might result this observation be an outlier.
 
 ## Cross Validation
