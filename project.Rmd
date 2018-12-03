@@ -69,12 +69,15 @@ By using one hot encoding method, we factorize the levels of each categorical va
 * Note: the level never smoked of factor smoke is identical to the level never smoked of factor time and number, so we droped this factor
 
 ```{r,echo=FALSE}
-categoricals = c('meth', 'feth', 'med', 'fed', 'marital', 'income', 'smoke', 'time', 'number')#, 'parity', 'mht', 'fht')
+categoricals = c('meth', 'feth', 'med', 'fed', 'marital',
+                 'income', 'smoke', 'time', 'number')#, 'parity', 'mht', 'fht')
 continuous = names(births.raw)[! names(births.raw) %in% categoricals]
 
 # Categorize m/feth
-#meth.categories = c(rep('Caucasian', 6), 'Mexican', 'African-American', 'Asian', 'Mixed', 'Other')
-meth.categories = c(rep('Caucasian', 6), 'Other', 'African-American', 'Other', 'Other', 'Other')
+#meth.categories = c(rep('Caucasian', 6), 'Mexican', 
+#                   'African-American', 'Asian', 'Mixed', 'Other')
+meth.categories = c(rep('Caucasian', 6), 'Other', 
+                    'African-American', 'Other', 'Other', 'Other')
 for (i in 1:length(meth.categories)) {
   births.raw$meth[births.raw$meth == i-1] = meth.categories[i]
   births.raw$feth[births.raw$feth == i-1] = meth.categories[i]
@@ -83,8 +86,12 @@ births.raw$meth = as.factor(births.raw$meth)
 births.raw$feth = as.factor(births.raw$feth)
 
 # Categorize m/fed
-#med.categories = c('elementary school', 'middle school', 'high school', 'high school + trade school', 'high school + some college', 'college graduate', 'trade school', 'high school unclear')
-med.categories = c('Other', 'middle school', 'high school', 'Other', 'high school + some college', 'college graduate', 'Other', 'Other')
+#med.categories = c('elementary school', 'middle school', 'high school', 
+#                   'high school + trade school', 'high school + some college', 
+#                   'college graduate', 'trade school', 'high school unclear')
+med.categories = c('Other', 'middle school', 'high school', 'Other',
+                   'high school + some college', 'college graduate',
+                   'Other', 'Other')
 for (i in 1:length(med.categories)) {
   births.raw$med[births.raw$med == i-1] = med.categories[i]
   births.raw$fed[births.raw$fed == i-1] = med.categories[i]
@@ -93,38 +100,55 @@ births.raw$med = as.factor(births.raw$med)
 births.raw$fed = as.factor(births.raw$fed)
 
 # Categorize marital
-#marital.categories = c('married', 'legally separated', 'divorced', 'widowed', 'never married')
-marital.categories = c('married', 'single', 'single', 'single', 'single')
+#marital.categories = c('married', 'legally separated', 
+#                       'divorced', 'widowed', 'never married')
+marital.categories = c('married', 'single', 'single', 
+                       'single', 'single')
 for (i in 1:length(marital.categories)) {
   births.raw$marital[births.raw$marital == i] = marital.categories[i]
 }
 births.raw$marital = as.factor(births.raw$marital)
 
 # Categorize income
-income.categories = c('under 2500', '2500-4999', '5000-7499', '7500-9999', '10000-12499', '12500-14999', '15000-17499', '17500-19999', '20000-22499', 'over 22500')
+income.categories = c('under 2500', '2500-4999', '5000-7499','7500-9999', 
+                      '10000-12499', '12500-14999', '15000-17499', 
+                      '17500-19999', '20000-22499', 'over 22500')
 for (i in 1:length(income.categories)) {
   births.raw$income[births.raw$income == i-1] = income.categories[i]
 }
 births.raw$income = as.factor(births.raw$income)
 
 # Categorize smoke
-smoke.categories = c('never', 'smokes now', 'until pregnancy', 'used to, not anymore')
+smoke.categories = c('never', 'smokes now', 'until pregnancy', 
+                     'used to, not anymore')
 for (i in 1:length(smoke.categories)) {
   births.raw$smoke[births.raw$smoke == i-1] = smoke.categories[i]
 }
 births.raw$smoke = as.factor(births.raw$smoke)
 
 # Categorize time
-#time.categories = c('never or more than 10 years', 'still smokes', 'during pregnancy', 'less than a year', '1-2 years', '2-3 years', '3-4 years', '5-9 years', 'never or more than 10 years', 'quit but don’t know when')
-time.categories = c('never or more than 10 years', 'still smokes', 'during pregnancy', 'less than 10 year', 'less than 10 year', 'less than 10 year', 'less than 10 year', 'less than 10 year', 'never or more than 10 years', 'quit but don’t know when')
+#time.categories = c('never or more than 10 years', 'still smokes', 
+#                    'during pregnancy', 'less than a year', '1-2 years', 
+#                   '2-3 years', '3-4 years', '5-9 years', 
+#                   'never or more than 10 years', 'quit but don’t know when')
+time.categories = c('never or more than 10 years', 'still smokes', 
+                    'during pregnancy', 'less than 10 year', 
+                    'less than 10 year', 'less than 10 year', 
+                    'less than 10 year', 'less than 10 year', 
+                    'never or more than 10 years', 'quit but don’t know when')
 for (i in 1:length(time.categories)) {
   births.raw$time[births.raw$time == i-1] = time.categories[i]
 }
 births.raw$time = as.factor(births.raw$time)
 
 # Categorize number
-#number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19', '20-29', '30-39', '40-60', 'more than 60', 'smoked but don’t know how much')
-number.categories = c('never smoked', 'less than 20', 'less than 20', 'less than 20', 'less than 20', 'more than 20', 'more than 20', 'more than 20', 'more than 20', 'smoked but don’t know how much')
+#number.categories = c('never smoked', '1-4', '5-9', '10-14', '15-19',
+#                      '20-29', '30-39', '40-60', 'more than 60', 
+#                      'smoked but don’t know how much')
+number.categories = c('never smoked', 'less than 20', 'less than 20', 
+                      'less than 20', 'less than 20', 'more than 20',
+                      'more than 20', 'more than 20', 'more than 20', 
+                      'smoked but don’t know how much')
 for (i in 1:length(number.categories)) {
   births.raw$number[births.raw$number == i-1] = number.categories[i]
 }
@@ -190,8 +214,10 @@ We got a pre-fitting model $MPrefit$ by analyzing pair plots of continuous varia
 
 ```{r,echo=FALSE}
 M0 <- lm(wt ~ 1, data = births.clean) # initial model
-Mfull <- lm(wt ~ (. - number - time - fed - med - feth - meth - marital)^2+ number + time + fed + med + feth                + meth + marital + I(gestation^2) + I(mage^2) + I(mht^2)
-              + I(mwt^2) + I(fage^2) + I(fht^2) + I(fwt^2), data = births.clean) # full model
+Mfull <- lm(wt ~ ( . - number - time - fed - med - feth - meth - marital)^2+
+              number + time + fed + med + feth + meth + marital +
+              I(gestation^2) + I(mage^2) + I(mht^2) + I(mwt^2) + I(fage^2) + 
+              I(fht^2) + I(fwt^2), data = births.clean) # full model
 Mstart <- lm(wt ~ ., data = births.clean) # start model
 ```
 
