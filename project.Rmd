@@ -45,18 +45,19 @@ After loading the dataset, we observed the following:
     + income: 10.03%
 4. Factor marital contains undefined level 0
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,eval=FALSE}
 head(births.raw)
 summary(births.raw)
 
 proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
 proportion
+```
 
+```{r,echo=FALSE}
 # Validating Variables
 births.raw$marital[!births.raw$marital %in% c(1:5)] = NA
 births.raw$time[births.raw$time %in% c(9)] = NA
 births.raw$number[births.raw$number %in% c(9)] = NA
-
 ```
 
 ### Categorize data
