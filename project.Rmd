@@ -516,7 +516,6 @@ M <-lm(births.clean)
 # coef(M)
 plot(predict(M),resid(M))
 entry <- which.max(resid(M))
-entry
 ```
 
 
