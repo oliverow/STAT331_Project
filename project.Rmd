@@ -608,9 +608,21 @@ Here is a list of important factors extracted from the p-value column of the ano
 
 Q2. Low birth weight is considered to be 88 ounces or less. Based on this analysis, would you be able to recommend behavioral changes to parents in order to avoid low birth weight? If so, please carefully formulate your recommendation.
 
+
+
+
+
+
+
 Q3. Are there any coefficients with high p-values retained in the final model? If so, why?
 
 Q4. Are there any outlying observations that might be appropriate to remove?
+
+```{r,echo=FALSE}
+min.entry <- which.min(births.raw$gestation)
+min.entry
+
+```
 
 Q5. Are any of the regression assumptions of the final model violated? If so, which ones? What are the possible deficiencies of the final model? How do these deficiencies nuance your conclusions/recommendations above?
 
