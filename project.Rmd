@@ -654,7 +654,7 @@ StuResPlot(Mstep,"(MStep)")
 StaResPlot(Mstep,"(MStep)")
 QQPlot(Mstep,"(MStep)")
 ```
-* We saw that 
+* From a graphical point of view, we can see that the residuals plot for stepwise model satisfies mean of zero and the model follows normality but violates constant varaince. The model is selected by automated model selection which depended on the choice of MStart and Mfull. This might cause the deficiencies of the final model.
 
 \newpage
 #Appendix for R Code
