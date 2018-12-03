@@ -583,7 +583,7 @@ From the MSPE graph, we can observe that the mean square prediction error for bo
 
 From the out-of-sample likelihood ratio statistic, we can observe that there is a slight preference for Mstep.
 
-# Conclusions
+# Discussion
 
 Q1. What are the most important factors associated with/influencing birth weight?
 To find out what are the most significance factors associated with birth weight, we can look at the p-values for each betas. 
@@ -609,7 +609,7 @@ info.pVal <- rbind(var,constructP(x))
 info.pVal
 
 ```
-Here is a list of important factors extracted from the p-value column of the anova table generate by R. The list with the samllest p-value includes gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy and gestation interacts with income.  
+Here is a list of important factors extracted from the p-value column of the anova table generate by R. The list with the smallest p-value includes gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy and gestation interacts with income.  
 
 
 
@@ -652,6 +652,14 @@ StaResPlot(Mstep,"(MStep)")
 QQPlot(Mstep,"(MStep)")
 ```
 * From a graphical point of view, we can see that the residuals plot for stepwise model satisfies mean of zero and the model follows normality but violates constant varaince. The model is selected by automated model selection which depended on the choice of MStart and Mfull. This might cause the deficiencies of the final model.
+
+
+
+#Conclusion
+Overall, the stepwise selection model is chosen to be the best fitting regression model after several rounds of comparsions. Our final model has been narrowed down to 55 covariates including intercept with gestation, mother's race, mother's height, mother's weight, father's wieght, when mother quit smoke before pregnacy and gestation interacts with income being the most significants parameters in the model.
+
+
+
 
 \newpage
 #Appendix for R Code
