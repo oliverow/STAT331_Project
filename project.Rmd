@@ -534,31 +534,10 @@ hist(logLambda, breaks = 50, freq = FALSE,
      xlab = expression(Lambda^{test}),
      main = "", cex = .7)
 abline(v = mean(logLambda), col = "red") # average value
-
-
-# r.squared <- c(summary(M1)$r.squared,summary(M2)$r.squared)
-# 
-# 
-# presses <- c(calPress(M1), calPress(M2))
-# 
-# 
-# AICS <-c(AIC(M1),AIC(M2))
-# 
-# info <-matrix(c(r.squared,presses,AICS),nrow = 2, ncol = 3)
-# rownames(info) <- c("MBack","MStep")
-# colnames(info)<- c("R^2","Press","AIC")
-# 
-# info
-# 
-
-
-
-
 ```
-
-
-
-
+\newline
+From the MSPE graph, we can observe that the mean square prediction error for both $Mback$ and $Mstep$ are almost identical.
+From the out-of-sample likelihood ratio statistic, we can observe that there is a slight preference for Mstep
 
 # Conclusions
 
