@@ -21,7 +21,7 @@ The objective of this project is to explore and analyze the model that best desc
 
 We firstly cleaned and categorized data in a property way that reduces the fraction of misleading results. Then, from pair plot, we concluded a pre-fitting model and, using automated model selection techniques, we obtained another three models. We then used manual model selection methods including PRESS, $R^2$, AIC and narrowed the number of our candidate models down to two. Then we further diagonsed the two models by checking their linear assumptions, leverage, and outliers and also by runnning cross validations. Finally, we drew conclusions on the best model we obtained and hence found a reasonably good relation between between the healthy male single-fetus birth weight and some possible factors.
 
-Based on the analysis, the model comming out from stepwise automated model selection best describes this relation. According to this model, we propose that gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy and the interaction between gestation and income are some factors that have significant effects on the birth weight.
+Based on the analysis, the model comming out from stepwise automated model selection best describes this relation. According to this model, we propose that gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quits smoke before pregnacy and the interaction between gestation and income are some factors that have significant effects on the birth weight.
 
 # Model Selection
 
