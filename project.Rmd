@@ -174,7 +174,7 @@ pairs(births.raw.cont, cex = 0.2)
 \newline
 Here is the pair plots of continuous variables. Notice that $parity$ is not continuous because there are some vertical lines in the plot. Also $parity$ is the total number of previous pregnancies, so normally it does not contain decimal numbers. What we did was categorizing it into 6 different variables.
 
-```{r,echo=TRUE}
+```{r,echo=FALSE}
 table(births.raw$parity)
 
 # Categorize parity
@@ -575,6 +575,15 @@ From the out-of-sample likelihood ratio statistic, we can observe that there is 
 
 # Conclusions
 
+Q1. What are the most important factors associated with/influencing birth weight?
+
+Q2. Low birth weight is considered to be 88 ounces or less. Based on this analysis, would you be able to recommend behavioral changes to parents in order to avoid low birth weight? If so, please carefully formulate your recommendation.
+
+Q3. Are there any coefficients with high p-values retained in the final model? If so, why?
+
+Q4. Are there any outlying observations that might be appropriate to remove?
+
+Q5. Are any of the regression assumptions of the final model violated? If so, which ones? What are the possible deficiencies of the final model? How do these deficiencies nuance your conclusions/recommendations above?
 
 
 \newpage
