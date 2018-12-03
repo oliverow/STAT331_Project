@@ -66,7 +66,7 @@ By using one hot encoding method, we factorize the levels of each categorical va
 * Note: we converted the following factor levels into NA for mice to impute more useful data
     + time: level quit but don't know when is converted into NA
     + number: level smoked but don’t know how much is converted into NA
-* Note: factor smoke is highly correlated to factor time and number, so we droped this factor
+* Note: the level never smoked of factor smoke is identical to the level never smoked of factor time and number, so we droped this factor
 
 ```{r,echo=FALSE}
 categoricals = c('meth', 'feth', 'med', 'fed', 'marital', 'income', 'smoke', 'time', 'number')#, 'parity', 'mht', 'fht')
