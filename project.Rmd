@@ -515,6 +515,7 @@ LeverageInfluence <- function(M) {
   points(h, res.sta, pch = 21, bg = "black", cex = cex)
   points(h, res.stu, pch = 21, bg = "blue", cex = cex)
   points(h, press, pch = 21, bg = "red", cex = cex)
+  
   points(h, dfts, pch = 21, bg = "orange", cex = cex)
   abline(v = hbar, col = "grey60", lty = 2)
 
@@ -531,12 +532,15 @@ LeverageInfluence <- function(M) {
   cex <- .8
   plot(h, D, xlab = "Leverage", ylab = "Cook's Influence Measure",
   pch = 21, bg = clrs, cex = cex, cex.axis = cex)
+
+  
   p <- length(coef(M))
   n <- nrow(births.clean)
   hbar <- p/n # average leverage
   abline(v = 2*hbar, col = "grey60", lty = 2) # 2x average leverage
   legend("topleft", legend = c("High Leverage", "High Influence"), pch = 21,
          pt.bg = c("blue", "red"), cex = cex, pt.cex = cex)
+  
   return(c(infl.ind, D[infl.ind]))
 }
 
@@ -544,6 +548,7 @@ LeverageInfluence <- function(M) {
 # leverage influence for forward selection model:
 a <-LeverageInfluence(Mback)
 b <-LeverageInfluence(Mstep)
+
 
 ```
 The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
@@ -645,17 +650,12 @@ Q2. Low birth weight is considered to be 88 ounces or less. Based on this analys
 
 
 
-
-
-
-
 Q3. Are there any coefficients with high p-values retained in the final model? If so, why?
 
 Q4. Are there any outlying observations that might be appropriate to remove?
 
-```{r,echo=FALSE}
-min.entry <- which.min(births.raw$gestation)
-min.entry
+```{r,echo=FALSE,results="hide"}
+
 
 ```
 
