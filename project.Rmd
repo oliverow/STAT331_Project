@@ -47,20 +47,14 @@ After loading the dataset, we observed the following:
 
 
 
-Table of proportions of NA for each covariate:
-```{r,echo=FALSE}
+```{r,echo=FALSE,eval=FALSE}
 # generate proportion of NA's in each covariate
 proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
 proportion
-```
 
-
-
-Summary of column marital in the dataset:
-```{r,echo=FALSE}
+# Summary of column marital in the dataset
 summary(births.raw$marital)
 ```
-
 
 ```{r,echo=FALSE}
 # Validating Variables
@@ -635,7 +629,7 @@ Q4. Are there any outlying observations that might be appropriate to remove?
 
 ```{r,echo=FALSE,results="hide"}
 # Answer for Q4 in conclusion
-max.leverage.Influential <- rbind(c("Leverage","Influential"),leverageInfP)
+max.leverage.Influential <- rbind(c("Leverage","Influential"), leverageInfP)
 max.leverage.Influential
 ```
 The above table indicates which entry when max leverage occurs and which entry when max influential point occurs. 
