@@ -17,6 +17,11 @@ library(mice)
 \newpage
 # Summary
 
+The objective of this project is to explore and analyze the model that best describes the relation between the weight of healthy male single-fetus baby and some possible factors.
+
+Our approach is general linear regression with R. We firstly cleaned and categorized data in a property way that reduces the fraction of misleading results. Then, from pair plot, we concluded a pre-fitting model and, using automated model selection techniques, we obtained another three models. We then used manual model selection methods including PRESS, $R^2$, AIC and narrowed the number of our candidate models down to two. Then we further diagonsed the two models by checking their linear assumptions, leverage, and outliers and also by runnning cross validations. Finally, we drew conclusions on the best model we obtained and hence found a reasonably good relation between between the weight of healthy male single-fetus baby and some possible factors.
+
+Based on the preferred model, we propose that ...
 
 # Model Selection
 
@@ -563,7 +568,8 @@ abline(v = mean(logLambda), col = "red") # average value
 ```
 \newline
 From the MSPE graph, we can observe that the mean square prediction error for both $Mback$ and $Mstep$ are almost identical.
-From the out-of-sample likelihood ratio statistic, we can observe that there is a slight preference for Mstep
+
+From the out-of-sample likelihood ratio statistic, we can observe that there is a slight preference for Mstep.
 
 # Conclusions
 
