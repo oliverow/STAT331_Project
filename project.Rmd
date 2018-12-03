@@ -656,8 +656,12 @@ Q4. Are there any outlying observations that might be appropriate to remove?
 max.leverage.Influential <- rbind(c("Leverage","Influential"),leverageInfP)
 max.leverage.Influential
 
+
 ```
-The above table indicates which entry when max leverage occurs and which entry when max influential point occurs. We have the following outliers detected by the LeverageInfluence function.
+The above table indicates which entry when max leverage occurs and which entry when max influential point occurs. 
+* We have the following outliers detected by the LeverageInfluence function::
+    + Entry 261(abnormal Gestation): Period of pregency is 148 days, which means the mother only has 5 months of pregency.
+    + Entry 153(abnormal Gestation): The mother has a 278 days of pregency, which is approximately 11 months.
 
 
 
