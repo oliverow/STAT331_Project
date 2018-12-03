@@ -239,7 +239,7 @@ Mstart <- lm(wt ~ ., data = births.clean) # start model
 
 We defined three helper model $M0$, $Mfull$, and $Mstep$. 
 Model $M0$ is a model containing solely the intercept. $$M0: wt \sim 1$$
-$Mfull$ is a model ... $$Mfull: wt \sim ( . - number - time - fed - med - feth - meth - marital)^2+$$
+$Mfull$ is a model containing most the main effects and interactions. When we first tried backward elimination, we used the full model with all the main effects and interactions. However it took us a long time to find a suitable model because there was a large number of categorical variables in our full model. We deleted some non-interaction terms and added quadratic terms for the continuous covariates. Here is our $MFull$: $$Mfull: wt \sim ( . - number - time - fed - med - feth - meth - marital)^2+$$
               $$number + time + fed + med + feth + meth + $$
               $$marital + I(gestation^2) + I(mage^2) + I(mht^2) + $$
               $$I(mwt^2) + I(fage^2) + I(fht^2) + I(fwt^2)$$
@@ -515,6 +515,7 @@ LeverageInfluence <- function(M) {
   points(h, res.sta, pch = 21, bg = "black", cex = cex)
   points(h, res.stu, pch = 21, bg = "blue", cex = cex)
   points(h, press, pch = 21, bg = "red", cex = cex)
+  
   points(h, dfts, pch = 21, bg = "orange", cex = cex)
   abline(v = hbar, col = "grey60", lty = 2)
 
@@ -531,12 +532,15 @@ LeverageInfluence <- function(M) {
   cex <- .8
   plot(h, D, xlab = "Leverage", ylab = "Cook's Influence Measure",
   pch = 21, bg = clrs, cex = cex, cex.axis = cex)
+
+  
   p <- length(coef(M))
   n <- nrow(births.clean)
   hbar <- p/n # average leverage
   abline(v = 2*hbar, col = "grey60", lty = 2) # 2x average leverage
   legend("topleft", legend = c("High Leverage", "High Influence"), pch = 21,
          pt.bg = c("blue", "red"), cex = cex, pt.cex = cex)
+  
   return(c(infl.ind, D[infl.ind]))
 }
 
@@ -545,17 +549,17 @@ LeverageInfluence <- function(M) {
 a <-LeverageInfluence(Mback)
 b <-LeverageInfluence(Mstep)
 
+
 ```
 The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
 To measure the overall influence of each observation, Cook’s distance is plotted against leverage as above. We can see that $MStep$ has larger leverage and influence. Hence there might be an outlier in $MStep$.
 
 ## Outliers
-```{r,echo=FALSE,eval=FALSE}
+```{r,echo=FALSE}
 plot(predict(M2), resid(M2))
 entry <- which.max(abs(resid(M2)))
-entry
 ```
-We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $MStep$. For this observation, 
+We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $MStep$. We found that birth weight in this observation is much larger than birth weight in other observations. This might result this observation be an outlier.
 
 ## Cross Validation
 ```{r,echo=FALSE,warning=FALSE}
@@ -654,9 +658,8 @@ Q3. Are there any coefficients with high p-values retained in the final model? I
 
 Q4. Are there any outlying observations that might be appropriate to remove?
 
-```{r,echo=FALSE}
-min.entry <- which.min(births.raw$gestation)
-min.entry
+```{r,echo=FALSE,results="hide"}
+
 
 ```
 
