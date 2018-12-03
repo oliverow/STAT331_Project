@@ -490,7 +490,6 @@ entry
 
 ### Cross Validation
 ```{r,echo=FALSE}
-options(warn=-1)      #turn off warnings
 # Cross-validation setup
 nreps <- 2e3 # number of replications
 ntot <- nrow(births.clean) # total number of observations
@@ -499,33 +498,29 @@ ntest <- ntot-ntrain # size of test set
 mspe1 <- rep(NA, nreps) # sum-of-square errors for each CV replication
 mspe2 <- rep(NA, nreps)
 logLambda <- rep(NA, nreps) # log-likelihod ratio statistic for each replication
-system.time({
-  for(ii in 1:nreps) {
-    if(ii%%200 == 0) message("ii = ", ii)
-    # randomly select training observations
-    train.ind <- sample(ntot, ntrain) # training observations
-    # refit the models on the subset of training data; ?update for details!
-    M1.cv <- update(M1, subset = train.ind)
-    M2.cv <- update(M2, subset = train.ind)
-    # out-of-sample residuals for both models
-    # that is, testing data - predictions with training parameters
-    M1.res <- births.clean$wt[-train.ind] -
-              predict(M1.cv, newdata = births.clean[-train.ind,])
-    M2.res <- births.clean$wt[-train.ind] -
-              predict(M2.cv, newdata = births.clean[-train.ind,])
-    # mean-square prediction errors
-    mspe1[ii] <- mean(M1.res^2)
-    mspe2[ii] <- mean(M2.res^2)
-    # out-of-sample likelihood ratio
-    M1.sigma <- sqrt(sum(resid(M1.cv)^2)/ntrain) # MLE of sigma
-    M2.sigma <- sqrt(sum(resid(M2.cv)^2)/ntrain)
-    # since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)
-    logLambda[ii] <- sum(dnorm(M1.res, mean = 0, sd = M1.sigma, log = TRUE))
-    logLambda[ii] <- logLambda[ii] -
-                     sum(dnorm(M2.res, mean = 0, sd = M2.sigma, log = TRUE))
-  }
-})
-options(warn=1)      #turn warnings back on
+for(ii in 1:nreps) {
+  # randomly select training observations
+  train.ind <- sample(ntot, ntrain) # training observations
+  # refit the models on the subset of training data; ?update for details!
+  M1.cv <- update(M1, subset = train.ind)
+  M2.cv <- update(M2, subset = train.ind)
+  # out-of-sample residuals for both models
+  # that is, testing data - predictions with training parameters
+  M1.res <- births.clean$wt[-train.ind] -
+            predict(M1.cv, newdata = births.clean[-train.ind,])
+  M2.res <- births.clean$wt[-train.ind] -
+            predict(M2.cv, newdata = births.clean[-train.ind,])
+  # mean-square prediction errors
+  mspe1[ii] <- mean(M1.res^2)
+  mspe2[ii] <- mean(M2.res^2)
+  # out-of-sample likelihood ratio
+  M1.sigma <- sqrt(sum(resid(M1.cv)^2)/ntrain) # MLE of sigma
+  M2.sigma <- sqrt(sum(resid(M2.cv)^2)/ntrain)
+  # since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)
+  logLambda[ii] <- sum(dnorm(M1.res, mean = 0, sd = M1.sigma, log = TRUE))
+  logLambda[ii] <- logLambda[ii] -
+                   sum(dnorm(M2.res, mean = 0, sd = M2.sigma, log = TRUE))
+}
 ```
 
 ```{r,echo=FALSE}
@@ -555,7 +550,13 @@ abline(v = mean(logLambda), col = "red") # average value
 # info
 # 
 
+
+
+
 ```
+
+
+
 
 
 # Conclusions
