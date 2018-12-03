@@ -11,7 +11,7 @@ highlighted: tango
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,fig.height = 2)
 library(mice)
 ```
 \newpage
@@ -591,6 +591,7 @@ extractP <- function(index) {
   anova(Mstep)$'Pr(>F)'[index]
 }
 
+leverageInfP <- c(261,153)
 constructP <- function(x) {
   pVal <- c()
   for(i in 1:length(x)){
