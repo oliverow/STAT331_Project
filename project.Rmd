@@ -189,9 +189,13 @@ table(births.raw$parity)
 
 For choosing the best 2 canadiate models, we want AIC and Press to be as small as possible and $R^2$ to be as large as possible when comparing. From the data above, we can conclude that father height$(fht)$, father weight$(fwt)$, $marital, number, time$ and $income$ are missing covariates since these variables take up to a large proportion over 10% of our dataset, which might give us undsired results when modelling these data. Since throwing out more than 10% of our data could cause misleading to our analysis. We would compelete these covariates by using Imputatation 5 times via the mice package. Details about multiple imputation:
 
-1. Randomly fill in miss value for X
-2. For each column j in design matrix X do the following:
-    + Estimate $P( x_j | x_{-j} )
+1. Randomly fill in miss value for $X$
+2. For each column $j$ in design matrix $X$ do the following:
+    + Estimate $P( X_j | X_{-j} )$ using only rows of $X$
+    + Randomly impute the missing values from the probabilistic model $P( X_j | X_{-j})$
+3. Repeat the above loop for $5*5=25$ times and record all 25 datasets
+4. By pooling, choose the best set of estimations via T-statistics testing
+
 
 
 ```{r,echo=FALSE,warning=FALSE}
