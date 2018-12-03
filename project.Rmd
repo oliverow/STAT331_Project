@@ -600,7 +600,8 @@ for(ii in 1:nreps) {
 # plot rMSPE and out-of-sample log(Lambda)
 par(mfrow = c(1,2))
 par(mar = c(4.5, 4.5, .1, .1))
-boxplot(x = list(sqrt(mspe1), sqrt(mspe2)), names = expression(M[BACK], M[STEP]), cex = .7,
+boxplot(x = list(sqrt(mspe1), sqrt(mspe2)), 
+        names = expression(M[BACK], M[STEP]), cex = .7,
         ylab = expression(sqrt(MSPE)), col = c("yellow", "orange"))
 hist(logLambda, breaks = 50, freq = FALSE,
      xlab = expression(Lambda^{test}),
@@ -650,6 +651,7 @@ Q2. Low birth weight is considered to be 88 ounces or less. Based on this analys
 
 
 Q3. Are there any coefficients with high p-values retained in the final model? If so, why?
+Yes. There are some coefficients with high p-values retained in the final stepwise selection model because there exists some variables that have interaction effect between them.
 
 Q4. Are there any outlying observations that might be appropriate to remove?
 
@@ -659,7 +661,13 @@ Q4. Are there any outlying observations that might be appropriate to remove?
 ```
 
 Q5. Are any of the regression assumptions of the final model violated? If so, which ones? What are the possible deficiencies of the final model? How do these deficiencies nuance your conclusions/recommendations above?
-
+```{r,echo=FALSE}
+par(mfrow = c(3,1))
+StuResPlot(Mstep,"(MStep)")
+StaResPlot(Mstep,"(MStep)")
+QQPlot(Mstep,"(MStep)")
+```
+* We saw that 
 
 \newpage
 #Appendix for R Code
