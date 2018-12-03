@@ -453,7 +453,7 @@ Last but not least, We compare their QQ-Plots. From both QQ-Plots, as theroretic
 
 In Conclution, we can not determine which model is better than the other from a linear assumptions point of view since the evidences from above can not distinguish the advantage of the two. 
 
-## Leverage
+## Leverage and Influence
 ```{r,echo=FALSE}
 # function to produce leverage and influence plots
 LeverageInfluence <- function(M) {
@@ -546,6 +546,7 @@ a <-LeverageInfluence(Mback)
 b <-LeverageInfluence(Mstep)
 
 ```
+
 
 
 ## Outliers
