@@ -41,8 +41,11 @@ After loading the dataset, we observed the following:
 4. Factor marital contains undefined level 0
 
 ```{r,echo=FALSE}
-# head(births.raw, 10)
-# summary(births.raw)
+head(births.raw)
+summary(births.raw)
+
+proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
+proportion
 
 # Validating Variables
 births.raw$marital[!births.raw$marital %in% c(1:5)] = NA
@@ -154,10 +157,6 @@ births.raw$parity = as.factor(births.raw$parity)
 
 
 ### NA's and $\pm$Inf's
-```{r,echo=FALSE}
-proportion <- sapply(births.raw, function(x) { sum(is.na(x))*100/nrow(births.raw) })
-proportion
-```
 For choosing the best 2 canadiate models, we want AIC and Press to be as small as possible and $R^2$ to be as large as possible when comparing. From the data above, we can conclude that $fht, fwt, marital, number, time$ and $income$ are missing covariates since these variables take up to a large proportion over 10% of our dataset, which might give us undsired results when modelling these data. Since throwing out more than 10% of our data could cause misleading to our analysis. We would compelete these covariates by using Imputatation 5 times via the mice package.
 
 
