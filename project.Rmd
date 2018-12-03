@@ -527,14 +527,15 @@ a <-LeverageInfluence(Mback)
 leverageInf <-LeverageInfluence(Mstep)
 ```
 The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
-To measure the overall influence of each observation, Cook’s distance is plotted against leverage as above. We can see that $MStep$ has larger leverage and influence. Hence there might be an outlier in $MStep$.
+To measure the overall influence of each observation, Cook’s distance is plotted against leverage as above. We can see that $Mstep$ has larger leverage and influence. Hence there might be an outlier in $Mstep$.
 
 ## Outliers
 ```{r,echo=FALSE}
+# Check outliers in Mstep
 plot(predict(M2), resid(M2))
 entry <- which.max(abs(resid(M2)))
 ```
-We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $MStep$. We found that birth weight in this observation is much larger than birth weight in other observations. This might result this observation be an outlier.
+We found that observation 240 had the largest residual in $Mstep$ and so it is the outlier of $Mstep$. We found that birth weight in this observation is much larger than birth weight in other observations. This might result this observation be an outlier.
 
 ## Cross Validation
 ```{r,echo=FALSE,warning=FALSE}
@@ -569,16 +570,8 @@ for(ii in 1:nreps) {
   logLambda[ii] <- logLambda[ii] -
                    sum(dnorm(M2.res, mean = 0, sd = M2.sigma, log = TRUE))
 }
-```
 
-```{r,echo=FALSE}
-leverageInfP <- c(261,153)
-```
-
-
-
-```{r,echo=FALSE}
-# plot rMSPE and out-of-sample log(Lambda)
+# plot rMSPE and out-of-sample log
 par(mfrow = c(1,2))
 par(mar = c(4.5, 4.5, .1, .1))
 boxplot(x = list(sqrt(mspe1), sqrt(mspe2)), 
@@ -599,6 +592,7 @@ From the out-of-sample likelihood ratio statistic, we can observe that there is 
 Q1. What are the most important factors associated with/influencing birth weight?
 To find out what are the most significance factors associated with birth weight, we can look at the p-values for each betas. 
 ```{r,echo = FALSE}
+# Answer for Q1 in conclusion
 extractP <- function(index) {
   anova(Mstep)$'Pr(>F)'[index]
 }
@@ -632,15 +626,17 @@ At 0.05 significance level, notice that gestation, parity, ethnicity of mother, 
 
 
 Q3. Are there any coefficients with high p-values retained in the final model? If so, why?
+
 Yes. There are some coefficients with high p-values retained in the final stepwise selection model because there exists some variables that have interaction effect between them.
+
+
 
 Q4. Are there any outlying observations that might be appropriate to remove?
 
 ```{r,echo=FALSE,results="hide"}
+# Answer for Q4 in conclusion
 max.leverage.Influential <- rbind(c("Leverage","Influential"),leverageInfP)
 max.leverage.Influential
-
-
 ```
 The above table indicates which entry when max leverage occurs and which entry when max influential point occurs. 
 * We have the following outliers detected by the LeverageInfluence function::
@@ -652,6 +648,7 @@ The above table indicates which entry when max leverage occurs and which entry w
 
 Q5. Are any of the regression assumptions of the final model violated? If so, which ones? What are the possible deficiencies of the final model? How do these deficiencies nuance your conclusions/recommendations above?
 ```{r,echo=FALSE}
+# Answer for Q5 in conclusion
 par(mfrow = c(3,1))
 StuResPlot(Mstep,"(MStep)")
 StaResPlot(Mstep,"(MStep)")
