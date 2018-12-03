@@ -19,9 +19,9 @@ library(mice)
 
 The objective of this project is to explore and analyze the model that best describes the relation between the weight of healthy male single-fetus baby and some possible factors.
 
-Our approach is general linear regression with R. We firstly cleaned and categorized data in a property way that reduces the fraction of misleading results. Then, from pair plot, we concluded a pre-fitting model and, using automated model selection techniques, we obtained another three models. We then used manual model selection methods including PRESS, $R^2$, AIC and narrowed the number of our candidate models down to two. Then we further diagonsed the two models by checking their linear assumptions, leverage, and outliers and also by runnning cross validations. Finally, we drew conclusions on the best model we obtained and hence found a reasonably good relation between between the weight of healthy male single-fetus baby and some possible factors.
+We firstly cleaned and categorized data in a property way that reduces the fraction of misleading results. Then, from pair plot, we concluded a pre-fitting model and, using automated model selection techniques, we obtained another three models. We then used manual model selection methods including PRESS, $R^2$, AIC and narrowed the number of our candidate models down to two. Then we further diagonsed the two models by checking their linear assumptions, leverage, and outliers and also by runnning cross validations. Finally, we drew conclusions on the best model we obtained and hence found a reasonably good relation between between the healthy male single-fetus birth weight and some possible factors.
 
-Based on the preferred model, we propose that ...
+Based on the analysis, the model comming out from stepwise automated model selection best describes this relation. According to this model, we propose that gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy and the interaction between gestation and income are some factors that have significant effects on the birth weight.
 
 # Model Selection
 
@@ -643,9 +643,10 @@ Here is a list of important factors extracted from the p-value column of the ano
 
 Q2. Low birth weight is considered to be 88 ounces or less. Based on this analysis, would you be able to recommend behavioral changes to parents in order to avoid low birth weight? If so, please carefully formulate your recommendation.
 
-
-
-
+At 0.05 significance level, notice that gestation, parity, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy, number of cigarettes mother smokes per day when she does, interaction between gestation and income, interaction between mother height and father weight, interaction between mother height and income are significant factors that affect the birth weights. Hence parents need to pay attention to those factors to avoid a healthy birth weight. Some recommendations may be:
+* the mother should reduce the number of cigarettes mother smoked per day if the mother does smoke because the p-value < 0.05 and we do reject the null hypothesis that the number of cigarettes mother smoked per day is insignificant to the birth weight at 0.05 significant level
+* the mother should quit smoking a longer time prior to pregency because the p-value < 0.05 and we do reject the null hypothesis that the when mother quit smoking prior pregency is insignificant to the birth weight at 0.05 significant level
+* both parents should try to gain weight because the p-value < 0.05 and we do reject the null hypothesis that either of the parents' weight is insignificant to the birth weight at 0.05 significant level
 
 
 
