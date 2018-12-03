@@ -540,15 +540,13 @@ LeverageInfluence <- function(M) {
   abline(v = 2*hbar, col = "grey60", lty = 2) # 2x average leverage
   legend("topleft", legend = c("High Leverage", "High Influence"), pch = 21,
          pt.bg = c("blue", "red"), cex = cex, pt.cex = cex)
-  
   return(c(infl.ind, D[infl.ind]))
 }
 
 
 # leverage influence for forward selection model:
 a <-LeverageInfluence(Mback)
-b <-LeverageInfluence(Mstep)
-
+leverageInf <-LeverageInfluence(Mstep)
 
 ```
 The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
@@ -597,6 +595,12 @@ for(ii in 1:nreps) {
 ```
 
 ```{r,echo=FALSE}
+leverageInfP <- c(261,153)
+```
+
+
+
+```{r,echo=FALSE}
 # plot rMSPE and out-of-sample log(Lambda)
 par(mfrow = c(1,2))
 par(mar = c(4.5, 4.5, .1, .1))
@@ -635,11 +639,6 @@ var <- c("gestation ","meth","mht","mwt","fht","fwt","time","gestation:income")
 info.pVal <- rbind(var,constructP(x))
 info.pVal
 
-
-
-
-
-
 ```
 Here is a list of important factors extracted from the p-value column of the anova table generate by R. The list with the samllest p-value includes gestation, ethnicity of mother, mother height, mother weight, father height, father weight, when mother quit smoke before pregnacy and gestation interacts with income.  
 
@@ -654,9 +653,14 @@ Q3. Are there any coefficients with high p-values retained in the final model? I
 Q4. Are there any outlying observations that might be appropriate to remove?
 
 ```{r,echo=FALSE,results="hide"}
-
+max.leverage.Influential <- rbind(c("Leverage","Influential"),leverageInfP)
+max.leverage.Influential
 
 ```
+The above table indicates which entry when max leverage occurs and which entry when max influential point occurs. We have the following outliers detected by the LeverageInfluence function.
+
+
+
 
 Q5. Are any of the regression assumptions of the final model violated? If so, which ones? What are the possible deficiencies of the final model? How do these deficiencies nuance your conclusions/recommendations above?
 
