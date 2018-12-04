@@ -1,6 +1,6 @@
 ---
 title: "STAT 331 Project"
-author: "SiJie Jin, Yinong Wang, Raymond Tan"
+author: "Sijie Jin(20643080), Yinong Wang(20609722), Raymond Tan(20611791)"
 date: "November 14th, 2018"
 output: pdf_document
 toc: yes
@@ -543,7 +543,7 @@ a <-LeverageInfluence(Mback)
 leverageInf <-LeverageInfluence(Mstep)
 
 ```
-The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, PRESS, and DFFITS. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
+The plots above display the residuals vs. fitted values using four types of residuals: standardized, studentized, $PRESS$, and $DFFITS$. The different types of residuals have been standardized such that each of them are identical at the average leverage value.
 To measure the overall influence of each observation, Cook’s distance is plotted against leverage as above. We can see that $Mstep$ has larger leverage and influence. Hence there might be an outlier in $MStep$.
 
 ## Outliers
